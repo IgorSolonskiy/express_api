@@ -1,13 +1,14 @@
 import {config} from "dotenv";
 import express from 'express';
 import mongoose from 'mongoose';
-import usersRoutes from './routes/users.js';
+import usersRoutes from './Routes/users.js';
 
 config();
 
 const app = express();
 
-app.use(usersRoutes);
+app.use(express.json())
+app.use('/api',usersRoutes);
 
 (async ()=>{
     try {
