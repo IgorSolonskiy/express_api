@@ -1,4 +1,4 @@
-import User from '../Models/user.js';
+import User from '../Models/user.model.js';
 
 const index = async (req, res) => {
   try {

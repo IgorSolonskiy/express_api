@@ -1,14 +1,18 @@
 import {config} from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import usersRoutes from './Routes/users.js';
-import authRoutes from './Routes/auth.js';
+import usersRoutes from './Routes/users.routes.js';
+import authRoutes from './Routes/auth.routes.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 config();
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 app.use('/api', usersRoutes);
 app.use('/api/auth', authRoutes);
 
