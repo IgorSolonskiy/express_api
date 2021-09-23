@@ -1,12 +1,12 @@
-import User from '../Models/user.model.js';
+import User from '../models/user.model.js';
 
 const index = async (req, res) => {
   try {
     const users = await User.find();
 
-    res.json(users);
+    return res.json(users);
   } catch (e) {
-    res.status(500).json('Internal Server Error');
+    return res.status(500).json('Internal Server Error');
   }
 };
 
@@ -17,13 +17,13 @@ const show = async (req, res) => {
       res.status(204);
     });
 
-    res.json(user);
+    return res.json(user);
   } catch (e) {
-    res.status(500).json('Internal Server Error');
+    return res.status(500).json('Internal Server Error');
   }
 };
 
 export default {
   index,
-  show
+  show,
 };
