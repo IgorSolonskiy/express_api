@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import usersRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import {errorMiddleware} from './middleware/error.middleware.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use('/api', usersRoutes);
 app.use('/api/auth', authRoutes);
+app.use(errorMiddleware);
 
 (async () => {
   try {
