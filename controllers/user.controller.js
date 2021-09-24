@@ -1,16 +1,17 @@
 import User from '../models/user.model.js';
+import userService from '../services/user.service.js';
 
-const index = async (req, res, next) => {
+const getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await userService.getUsers();
 
     return res.json(users);
   } catch (e) {
-    next(e)
+    next(e);
   }
 };
 
-const show = async (req, res, next) => {
+const getUser = async (req, res, next) => {
   try {
     const {id} = req.params;
     const user = await User.findById(id).catch(() => {
@@ -19,11 +20,11 @@ const show = async (req, res, next) => {
 
     return res.json(user);
   } catch (e) {
-    next(e)
+    next(e);
   }
 };
 
 export default {
-  index,
-  show,
+  getUsers,
+  getUser,
 };

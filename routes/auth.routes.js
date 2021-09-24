@@ -1,16 +1,19 @@
 import {Router} from 'express';
 import AuthController from '../controllers/auth.controller.js';
-import {body} from 'express-validator';
+import {registrationRequest} from '../requests/registration.request.js';
+import {loginRequest} from '../requests/login.request.js';
 
 const router = Router();
 
 router.post('/register',
-    body('email').isString().isEmail(),
-    body('username').isString().isLength({min: 2, max: 20}),
-    body('password').isString().isLength({min: 3, max: 32}),
+    registrationRequest,
     AuthController.register);
-router.post('/login', AuthController.login);
+
+router.post('/login',
+    loginRequest,
+    AuthController.login);
+
 router.get('/logout', AuthController.logout);
-router.post('/refresh', AuthController.refresh);
+router.get('/refresh', AuthController.refresh);
 
 export default router;

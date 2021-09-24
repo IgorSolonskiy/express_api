@@ -38,11 +38,11 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   try {
     const {refreshToken} = req.cookies;
-    const token = await authService.logout(refreshToken)
+    await authService.logout(refreshToken);
 
     res.clearCookie('refreshToken');
 
-    return res.json(token)
+    return res.status(204).json();
   } catch (e) {
     next(e);
   }
