@@ -1,5 +1,6 @@
 import User from '../models/user.model.js';
 import userService from '../services/user.service.js';
+import {userResource} from '../resources/user.resource.js';
 
 const getUsers = async (req, res, next) => {
   try {
@@ -18,7 +19,7 @@ const getUser = async (req, res, next) => {
       res.status(204);
     });
 
-    return res.json(user);
+    return res.json(userResource(user));
   } catch (e) {
     next(e);
   }

@@ -19,4 +19,11 @@ export const registrationRequest = checkSchema({
       options: {min: 2},
     },
   },
+  name: {
+    isString: true,
+    isLength: {
+      errorMessage: 'Username should be at least 2 chars long',
+      options: {min: 2},
+    },
+  },
 });
