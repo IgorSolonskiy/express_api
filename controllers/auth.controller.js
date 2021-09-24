@@ -2,7 +2,6 @@ import authService from '../services/auth.service.js';
 import {validationResult} from 'express-validator';
 import {ApiError} from '../exceptions/api.js';
 import {authResource} from '../resources/auth.resource.js';
-import {tokenResource} from '../resources/token.resource.js';
 
 const register = async (req, res, next) => {
   try {
@@ -58,7 +57,7 @@ const refresh = async (req, res, next) => {
     res.cookie('refreshToken', user.refreshToken,
         {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
-    return res.status(201).json(tokenResource(user));
+    return res.status(201).json(authResource(user));
   } catch (e) {
     next(e);
   }
