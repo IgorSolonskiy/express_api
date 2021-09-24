@@ -23,7 +23,13 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    res.status(201).json();
+    const {email, password} = req.body;
+    const user = await authService.login(email, password);
+
+    res.cookie('refreshToken', user.refreshToken,
+        {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
+
+    return res.status(201).json(user);
   } catch (e) {
     next(e);
   }
@@ -31,7 +37,12 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    res.status(201).json();
+    const {refreshToken} = req.cookies;
+    const token = await authService.logout(refreshToken)
+
+    res.clearCookie('refreshToken');
+
+    return res.json(token)
   } catch (e) {
     next(e);
   }
@@ -39,7 +50,13 @@ const logout = async (req, res, next) => {
 
 const refresh = async (req, res, next) => {
   try {
-    res.status(201).json();
+    const {refreshToken} = req.cookies;
+    const user = await authService.refresh(refreshToken);
+
+    res.cookie('refreshToken', user.refreshToken,
+        {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
+
+    return res.status(201).json(user);
   } catch (e) {
     next(e);
   }

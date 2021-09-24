@@ -25,7 +25,34 @@ const save = async (userId, refreshToken) => {
   return await Token.create(({user: userId, refreshToken}));
 };
 
+const removeToken = async (refreshToken) => await Token.deleteOne(
+    {refreshToken});
+
+const validateAccessToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  } catch (e) {
+    return null;
+  }
+};
+
+const validateRefreshToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+  } catch (e) {
+    return null;
+  }
+};
+
+const findToken = async (refreshToken) => await Token.findOne(
+    {refreshToken});
+
+
 export default {
   save,
-  generate
-}
+  generate,
+  removeToken,
+  validateAccessToken,
+  validateRefreshToken,
+  findToken
+};

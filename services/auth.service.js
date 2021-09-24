@@ -23,6 +23,56 @@ const registration = async (email, password, username) => {
   };
 };
 
+const login = async (email, password) => {
+  const user = await User.findOne({email});
+
+  if (!user)
+    ApiError.unprocessableError('No such user exists');
+
+  const isPassEquals = await bcrypt.compare(password, user.password);
+
+  if (!isPassEquals)
+    ApiError.unprocessableError('You entered an incorrect password');
+
+  const userData = userDto(user);
+  const tokens = tokenService.generate(userData);
+
+  await tokenService.save(userData.id, tokens.refreshToken);
+
+  return {
+    ...tokens,
+    ...userData,
+  };
+};
+
+const logout = async (refreshToken) => await tokenService.removeToken(
+    refreshToken);
+
+const refresh = async (refreshToken) => {
+  if (!refreshToken)
+    ApiError.unauthorizedError();
+
+  const user = tokenService.validateRefreshToken(refreshToken);
+  const tokenFromDb = await tokenService.findToken(refreshToken);
+
+  if (!user || !tokenFromDb)
+    ApiError.unauthorizedError();
+
+  const updatedUser = await User.findById(user.id)
+  const userData = userDto(updatedUser);
+  const tokens = tokenService.generate(userData);
+
+  await tokenService.save(userData.id, tokens.refreshToken);
+
+  return {
+    ...tokens,
+    ...userData,
+  };
+};
+
 export default {
   registration,
+  login,
+  logout,
+  refresh,
 };

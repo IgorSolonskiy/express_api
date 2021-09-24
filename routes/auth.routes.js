@@ -10,7 +10,7 @@ router.post('/register',
     body('password').isString().isLength({min: 3, max: 32}),
     AuthController.register);
 router.post('/login', AuthController.login);
-router.post('/logout', AuthController.logout);
+router.get('/logout', AuthController.logout);
 router.post('/refresh', AuthController.refresh);
 
 export default router;
