@@ -1,13 +1,13 @@
 import authService from '../services/auth.service.js';
 import {validationResult} from 'express-validator';
-import apiError from '../exceptions/api.js';
+import {ApiError} from '../exceptions/api.js';
 
 const register = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
     if (!errors.isEmpty())
-      apiError.validationError('Invalid value', errors.array());
+      ApiError.validationError('Invalid value', errors.array());
 
     const {email, password, username} = req.body;
     const user = await authService.registration(email, password, username);

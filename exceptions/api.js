@@ -1,22 +1,26 @@
-const unauthorizedError = () => {
-  throw {status: 401, message: 'User is not logged in'};
-};
+export class ApiError extends Error {
+  status;
+  errors;
 
-const unprocessableError = (message) => {
-  throw {status: 422, message};
-};
+  constructor(status, message, errors = []) {
+    super(message);
+    this.status = status;
+    this.errors = errors;
+  }
 
-const validationError = (message, errors = []) => {
-  throw {status: 422, message, errors};
-};
+  static unauthorizedError = () => {
+    throw new ApiError(401, 'User is not logged in');
+  };
 
-const badRequest = (message, errors = []) => {
-  throw {status: 400, message, errors};
-};
+  static unprocessableError = (message) => {
+    throw new ApiError(422, message);
+  };
 
-export default {
-  unauthorizedError,
-  unprocessableError,
-  badRequest,
-  validationError
-};
+  static validationError = (message, errors = []) => {
+    throw new ApiError(422, message, errors);
+  };
+
+  static badRequest = (message, errors = []) => {
+    throw new ApiError(400, message, errors);
+  };
+}
