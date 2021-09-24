@@ -1,16 +1,16 @@
 import User from '../models/user.model.js';
 
-const index = async (req, res) => {
+const index = async (req, res, next) => {
   try {
     const users = await User.find();
 
     return res.json(users);
   } catch (e) {
-    return res.status(500).json('Internal Server Error');
+    next(e)
   }
 };
 
-const show = async (req, res) => {
+const show = async (req, res, next) => {
   try {
     const {id} = req.params;
     const user = await User.findById(id).catch(() => {
@@ -19,7 +19,7 @@ const show = async (req, res) => {
 
     return res.json(user);
   } catch (e) {
-    return res.status(500).json('Internal Server Error');
+    next(e)
   }
 };
 
