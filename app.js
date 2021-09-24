@@ -10,13 +10,17 @@ import cors from 'cors';
 config();
 
 const app = express();
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors());
-app.use('/api', usersRoutes);
-app.use('/api/auth', authRoutes);
-app.use(errorMiddleware);
+app.use(express.json())
+    .use(cookieParser())
+    .use(cors(corsConfig))
+    .use('/api', usersRoutes)
+    .use('/api/auth', authRoutes)
+    .use(errorMiddleware);
 
 (async () => {
   try {
