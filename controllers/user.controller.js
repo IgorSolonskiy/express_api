@@ -1,12 +1,15 @@
 import User from '../models/user.model.js';
 import userService from '../services/user.service.js';
-import {userResource} from '../resources/user.resource.js';
+import {
+  userResource,
+  userResourceCollection,
+} from '../resources/user.resource.js';
 
 const getUsers = async (req, res, next) => {
   try {
     const users = await userService.getUsers();
 
-    return res.json(users);
+    return res.json(userResourceCollection(users));
   } catch (e) {
     next(e);
   }
