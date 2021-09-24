@@ -5,8 +5,9 @@ import {body} from 'express-validator';
 const router = Router();
 
 router.post('/register',
-    body('email').isEmail(),
-    body('password').isLength({min: 3, max: 32}),
+    body('email').isString().isEmail(),
+    body('username').isString().isLength({min: 2, max: 20}),
+    body('password').isString().isLength({min: 3, max: 32}),
     AuthController.register);
 router.post('/login', AuthController.login);
 router.post('/logout', AuthController.logout);
