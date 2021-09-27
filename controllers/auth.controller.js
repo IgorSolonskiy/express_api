@@ -2,6 +2,8 @@ import authService from '../services/auth.service.js';
 import {validationResult} from 'express-validator';
 import {ApiError} from '../exceptions/api.js';
 import {authResource} from '../resources/auth.resource.js';
+import {tokenResource} from '../resources/token.resource.js';
+import {profileResource} from '../resources/profile.resource.js';
 
 const register = async (req, res, next) => {
   try {
@@ -30,7 +32,7 @@ const login = async (req, res, next) => {
     res.cookie('refreshToken', user.refreshToken,
         {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
-    return res.status(201).json(authResource(user));
+    return res.status(201).json(tokenResource(user));
   } catch (e) {
     next(e);
   }
@@ -57,7 +59,15 @@ const refresh = async (req, res, next) => {
     res.cookie('refreshToken', user.refreshToken,
         {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
-    return res.status(201).json(authResource(user));
+    return res.status(201).json(tokenResource(user));
+  } catch (e) {
+    next(e);
+  }
+};
+
+const profile = async (req, res, next) => {
+  try {
+    return res.status(201).json(profileResource(req.user));
   } catch (e) {
     next(e);
   }
@@ -68,4 +78,5 @@ export default {
   login,
   logout,
   refresh,
+  profile
 };

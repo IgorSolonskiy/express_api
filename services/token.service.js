@@ -5,7 +5,7 @@ const generate = (payload) => {
   const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET,
       {expiresIn: '15m'});
   const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET,
-      {expiresIn: '3d'});
+      {expiresIn: '1d'});
 
   return {
     accessToken,
