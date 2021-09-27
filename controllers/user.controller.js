@@ -5,7 +5,7 @@ import {
   userResourceCollection,
 } from '../resources/user.resource.js';
 
-const getUsers = async (req, res, next) => {
+const index = async (req, res, next) => {
   try {
     const users = await userService.getUsers();
 
@@ -15,7 +15,7 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-const getUser = async (req, res, next) => {
+const show = async (req, res, next) => {
   try {
     const {id} = req.params;
     const user = await User.findById(id).catch(() => {
@@ -29,6 +29,6 @@ const getUser = async (req, res, next) => {
 };
 
 export default {
-  getUsers,
-  getUser,
+  index,
+  show,
 };

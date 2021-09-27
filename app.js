@@ -2,6 +2,7 @@ import {config} from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import usersRoutes from './routes/users.routes.js';
+import postsRoutes from './routes/posts.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import {errorMiddleware} from './middleware/error.middleware.js';
 import cookieParser from 'cookie-parser';
@@ -19,6 +20,7 @@ app.use(express.json())
     .use(cookieParser())
     .use(cors(corsConfig))
     .use('/api', usersRoutes)
+    .use('/api', postsRoutes)
     .use('/api/auth', authRoutes)
     .use(errorMiddleware);
 
