@@ -7,6 +7,30 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
   content: {type: String, required: true},
-}, {timestamps: true});
+}, {
+  timestamps: true,
+  toObject: {
+    transform: (doc, ret) => {
+      ret.user = {
+        name: ret.user_id.name,
+        email: ret.user_id.email,
+        username: ret.user_id.username,
+      };
+      delete ret.user_id;
+      delete ret.__v;
+    },
+  },
+  toJSON: {
+    transform: (doc, ret) => {
+      ret.user = {
+        name: ret.user_id.name,
+        email: ret.user_id.email,
+        username: ret.user_id.username,
+      };
+      delete ret.user_id;
+      delete ret.__v;
+    },
+  },
+});
 
 export default mongoose.model('Post', PostSchema);

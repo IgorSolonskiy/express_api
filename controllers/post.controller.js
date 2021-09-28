@@ -14,9 +14,9 @@ const create = async (req, res, next) => {
 const index = async (req, res, next) => {
   try {
     const {user} = req.params;
-    const post = await postService.getPosts(user);
+    const posts = await postService.getPosts(user);
 
-    res.json(post);
+    res.json(posts);
   } catch (e) {
     next(e);
   }
