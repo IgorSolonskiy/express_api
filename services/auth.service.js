@@ -43,7 +43,7 @@ const refresh = async (refreshToken) => {
   if (!user || !tokenFromDb)
     ApiError.unauthorizedError();
 
-  const updatedUser = await User.findById(user.id);
+  const updatedUser = await User.findById(user._id);
 
   return generateAuthData(updatedUser);
 };

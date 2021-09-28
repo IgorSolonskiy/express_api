@@ -1,15 +1,12 @@
 import User from '../models/user.model.js';
 import userService from '../services/user.service.js';
-import {
-  userResource,
-  userResourceCollection,
-} from '../resources/user.resource.js';
 
 const index = async (req, res, next) => {
   try {
     const users = await userService.getUsers();
+    const privateUsers = users.map(user => user.privateUser);
 
-    return res.json(userResourceCollection(users));
+    return res.json(privateUsers);
   } catch (e) {
     next(e);
   }
@@ -17,12 +14,13 @@ const index = async (req, res, next) => {
 
 const show = async (req, res, next) => {
   try {
-    const {id} = req.params;
-    const user = await User.findById(id).catch(() => {
+    const {username} = req.params;
+
+    const user = await User.findOne({username}).catch(() => {
       res.status(204);
     });
 
-    return res.json(userResource(user));
+    return res.json(user.privateUser);
   } catch (e) {
     next(e);
   }

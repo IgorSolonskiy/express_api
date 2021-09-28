@@ -1,7 +1,7 @@
 export const userDto = (user) => {
-  const {username, _id, email} = user;
+  const {username, _id, email, name} = user;
 
   return {
-    username, id: _id.toString(), email,
+    username, _id: _id.toString(), email, name,
   };
 };

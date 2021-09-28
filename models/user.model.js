@@ -10,6 +10,18 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minLength: [6, 'password must be of minimum 6 characters length'],
   },
-}, {timestamps: true});
+}, {
+  timestamps: true,
+});
+
+UserSchema.virtual('privateUser').get(function() {
+  return {
+    _id: this._id,
+    username: this.username,
+    name: this.name,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
+  };
+});
 
 export default mongoose.model('User', UserSchema);

@@ -18,7 +18,9 @@ export const authMiddleware = (req, res, next) => {
     if (!user)
       return next(ApiError.unauthorizedError());
 
-    req.user = user;
+    const {username,name,email,_id} = user
+
+    req.user = {username,name,email,_id};
     next();
   } catch (e) {
     return next(ApiError.unauthorizedError());

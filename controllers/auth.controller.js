@@ -1,9 +1,6 @@
 import authService from '../services/auth.service.js';
 import {validationResult} from 'express-validator';
 import {ApiError} from '../exceptions/api.js';
-import {authResource} from '../resources/auth.resource.js';
-import {tokenResource} from '../resources/token.resource.js';
-import {profileResource} from '../resources/profile.resource.js';
 
 const register = async (req, res, next) => {
   try {
@@ -13,12 +10,12 @@ const register = async (req, res, next) => {
       ApiError.validationError('Invalid value', errors.array());
 
     const {email, password, username, name} = req.body;
-    const user = await authService.registration(email, password, username, name);
+    const {refreshToken, accessToken} = await authService.registration(email, password, username, name);
 
-    res.cookie('refreshToken', user.refreshToken,
+    res.cookie('refreshToken', refreshToken,
         {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
-    return res.status(201).json(authResource(user));
+    return res.status(201).json({accessToken});
   } catch (e) {
     next(e);
   }
@@ -27,12 +24,12 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const {email, password} = req.body;
-    const user = await authService.login(email, password);
+    const {refreshToken,accessToken} = await authService.login(email, password);
 
-    res.cookie('refreshToken', user.refreshToken,
+    res.cookie('refreshToken', refreshToken,
         {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
-    return res.status(201).json(tokenResource(user));
+    return res.status(201).json({accessToken});
   } catch (e) {
     next(e);
   }
@@ -53,21 +50,20 @@ const logout = async (req, res, next) => {
 
 const refresh = async (req, res, next) => {
   try {
-    const {refreshToken} = req.cookies;
-    const user = await authService.refresh(refreshToken);
+    const {refreshToken, accessToken} = await authService.refresh(req.cookies.refreshToken);
 
-    res.cookie('refreshToken', user.refreshToken,
+    res.cookie('refreshToken', refreshToken,
         {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
-    return res.status(201).json(tokenResource(user));
+    return res.status(201).json({accessToken});
   } catch (e) {
     next(e);
   }
 };
 
-const profile = async (req, res, next) => {
+const profile =  (req, res, next) => {
   try {
-    return res.status(201).json(profileResource(req.user));
+    return res.status(201).json(req.user);
   } catch (e) {
     next(e);
   }
@@ -78,5 +74,5 @@ export default {
   login,
   logout,
   refresh,
-  profile
+  profile,
 };

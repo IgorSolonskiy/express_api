@@ -5,7 +5,7 @@ export default async (user) => {
   const userData = userDto(user);
   const tokens = tokenService.generate(userData);
 
-  await tokenService.save(userData.id, tokens.refreshToken);
+  await tokenService.save(userData._id, tokens.refreshToken);
 
   return {
     ...tokens,
