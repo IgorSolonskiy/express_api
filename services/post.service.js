@@ -9,10 +9,17 @@ const createPost = async (content, user) => {
   return post.populate('user_id');
 };
 
+const deletePost = async (_id) => await Post.findOneAndRemove({_id});
+
+const updatePost = async (_id, content) => await Post.findOneAndUpdate({_id},
+    {content}, {new: true}).populate('user_id');
+
 const getPosts = async (username) => {
-  const user = await User.findOne({username}).populate({path:'posts', options:{
-    sort: { 'createdAt': 'desc' }
-    }, populate:{path:'user_id'}});
+  const user = await User.findOne({username}).populate({
+    path: 'posts', options: {
+      sort: {'createdAt': 'desc'},
+    }, populate: {path: 'user_id'},
+  });
 
   return user.posts;
 };
@@ -20,4 +27,6 @@ const getPosts = async (username) => {
 export default {
   createPost,
   getPosts,
+  deletePost,
+  updatePost,
 };

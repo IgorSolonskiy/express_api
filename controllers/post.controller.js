@@ -22,7 +22,32 @@ const index = async (req, res, next) => {
   }
 };
 
+const destroy = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    await postService.deletePost(id);
+
+    return res.status(204).json();
+  } catch (e) {
+    next(e);
+  }
+};
+
+const update = async (req, res, next) => {
+  try {
+    const {content} = req.body;
+    const {id} = req.params;
+    const post = await postService.updatePost(id, content);
+
+    return res.json(post);
+  } catch (e) {
+    next(e);
+  }
+};
+
 export default {
   create,
   index,
+  destroy,
+  update,
 };
