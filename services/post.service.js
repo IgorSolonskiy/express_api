@@ -10,7 +10,9 @@ const createPost = async (content, user) => {
 };
 
 const getPosts = async (username) => {
-  const user = await User.findOne({username}).populate({path:'posts', populate:{path:'user_id'}});
+  const user = await User.findOne({username}).populate({path:'posts', options:{
+    sort: { 'createdAt': 'desc' }
+    }, populate:{path:'user_id'}});
 
   return user.posts;
 };
