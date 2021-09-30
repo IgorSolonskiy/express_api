@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import usersRoutes from './routes/users.routes.js';
 import postsRoutes from './routes/posts.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import stripeRoutes from './routes/stripe.route.js';
 import {errorMiddleware} from './middleware/error.middleware.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -19,8 +20,10 @@ const corsConfig = {
 app.use(express.json())
     .use(cookieParser())
     .use(cors(corsConfig))
+    .use(express.urlencoded({extended: true}))
     .use('/api', usersRoutes)
     .use('/api', postsRoutes)
+    .use('/api', stripeRoutes)
     .use('/api/auth', authRoutes)
     .use(errorMiddleware);
 
