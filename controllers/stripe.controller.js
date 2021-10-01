@@ -17,7 +17,7 @@ const createCheckoutSession = async (req, res, next) => {
   }
 };
 
-const getSubscriptions = async (req, res, next) => {
+const getSubscription = async (req, res, next) => {
   try {
     const response = await stripe.customers.list({
       email: req.user.email,
@@ -25,13 +25,25 @@ const getSubscriptions = async (req, res, next) => {
     });
 
     if (!response.data.length)
-      return res.json(response.data);
+      return res.status(204).json();
 
     const customer = response.data[0];
+    const currentSubscription = customer.subscriptions.data[0];
 
-    res.json(customer.subscriptions.data);
+    res.json(currentSubscription);
   } catch (e) {
+    next(e);
+  }
+};
 
+const getPaymentMethod = async (req, res, next) => {
+  try {
+    const paymentMethod = await stripe.paymentMethods.retrieve(
+        req.params.id,
+    );
+
+    res.json(paymentMethod);
+  } catch (e) {
     next(e);
   }
 };
@@ -46,8 +58,38 @@ const getPrice = async (req, res, next) => {
   }
 };
 
+const unsubscribe = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+
+    await stripe.subscriptions.update(id, {
+      cancel_at_period_end: true,
+    });
+
+    res.status(204).json();
+  } catch (e) {
+    next(e);
+  }
+};
+
+const deleteCard = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+
+    await stripe.paymentMethods.detach(
+        id,
+    );
+    res.status(204).json();
+  } catch (e) {
+    next(e);
+  }
+};
+
 export default {
   getPrice,
   createCheckoutSession,
-  getSubscriptions,
+  getSubscription,
+  unsubscribe,
+  getPaymentMethod,
+  deleteCard,
 };
