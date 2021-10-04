@@ -19,16 +19,11 @@ const createCheckoutSession = async (req, res, next) => {
 
 const getSubscription = async (req, res, next) => {
   try {
-    const response = await stripe.customers.list({
-      email: req.user.email,
-      expand: ['data.subscriptions'],
-    });
+    const currentSubscription = await stripeService.getSubscription(
+        req.user.email);
 
-    if (!response.data.length)
-      return res.status(204).json();
-
-    const customer = response.data[0];
-    const currentSubscription = customer.subscriptions.data[0];
+    if (!currentSubscription)
+      res.status(204).json();
 
     res.json(currentSubscription);
   } catch (e) {
@@ -48,6 +43,17 @@ const getPaymentMethod = async (req, res, next) => {
   }
 };
 
+const createPaymentMethod = async (req, res, next) => {
+  try {
+    const attachedPaymentMethod = stripeService.setPaymentMethod(
+        req.body.payment_method, req.params.id, req.body.subscription_id);
+
+    res.json(attachedPaymentMethod);
+  } catch (e) {
+    next(e);
+  }
+};
+
 const getPrice = async (req, res, next) => {
   try {
     const products = await stripe.prices.list();
@@ -58,13 +64,10 @@ const getPrice = async (req, res, next) => {
   }
 };
 
-const update = async (req, res, next) => {
+const updateSubscription = async (req, res, next) => {
   try {
-    const {id} = req.params;
-    const {cancel_at_period_end} = req.body;
-
-    await stripe.subscriptions.update(id, {
-      cancel_at_period_end
+    await stripe.subscriptions.update(req.params.id, {
+      cancel_at_period_end: req.body.cancel_at_period_end,
     });
 
     res.status(204).json();
@@ -75,11 +78,10 @@ const update = async (req, res, next) => {
 
 const deleteCard = async (req, res, next) => {
   try {
-    const {id} = req.params;
-
     await stripe.paymentMethods.detach(
-        id,
+        req.params.id,
     );
+
     res.status(204).json();
   } catch (e) {
     next(e);
@@ -90,7 +92,8 @@ export default {
   getPrice,
   createCheckoutSession,
   getSubscription,
-  update,
+  updateSubscription,
   getPaymentMethod,
   deleteCard,
+  createPaymentMethod,
 };

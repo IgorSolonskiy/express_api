@@ -1,8 +1,9 @@
 import {config} from 'dotenv';
+import {stripe} from '../controllers/stripe.controller.js';
 
 config();
 
-const createSession = async (stripe, lookup_key,username) => {
+const createSession = async (stripe, lookup_key, username) => {
   const prices = await stripe.prices.list({
     lookup_keys: [lookup_key],
     expand: ['data.product'],
@@ -24,6 +25,32 @@ const createSession = async (stripe, lookup_key,username) => {
   return session.url;
 };
 
+const getSubscription = async (email) => {
+  const response = await stripe.customers.list({
+    email: email,
+    expand: ['data.subscriptions'],
+  });
+
+  if (!response.data.length)
+    return null;
+
+  const customer = response.data[0];
+
+  return customer.subscriptions.data[0];
+};
+
+const setPaymentMethod = async (payment_method, customer, subscription_id) => {
+  const paymentMethod = await stripe.paymentMethods.create(payment_method);
+
+  await stripe.subscriptions.update(subscription_id,
+      {default_payment_method: paymentMethod.id},
+  );
+
+  return await stripe.paymentMethods.attach(paymentMethod.id, {customer});
+};
+
 export default {
-  createSession
-}
+  getSubscription,
+  createSession,
+  setPaymentMethod
+};

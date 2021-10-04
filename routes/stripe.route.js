@@ -8,7 +8,8 @@ router.get('/subscriptions/price', authMiddleware, StripeController.getPrice);
 router.post('/create-checkout-session', authMiddleware, StripeController.createCheckoutSession);
 router.get('/subscription', authMiddleware, StripeController.getSubscription);
 router.get('/payment_methods/:id', authMiddleware, StripeController.getPaymentMethod);
+router.post('/customer/:id/payment_methods', authMiddleware, StripeController.createPaymentMethod);
 router.delete('/payment_methods/:id/detach', authMiddleware, StripeController.deleteCard);
-router.put('/subscriptions/:id/update', authMiddleware, StripeController.update);
+router.put('/subscriptions/:id/update', authMiddleware, StripeController.updateSubscription);
 
 export default router;
