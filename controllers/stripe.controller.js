@@ -58,12 +58,13 @@ const getPrice = async (req, res, next) => {
   }
 };
 
-const unsubscribe = async (req, res, next) => {
+const update = async (req, res, next) => {
   try {
     const {id} = req.params;
+    const {cancel_at_period_end} = req.body;
 
     await stripe.subscriptions.update(id, {
-      cancel_at_period_end: true,
+      cancel_at_period_end
     });
 
     res.status(204).json();
@@ -89,7 +90,7 @@ export default {
   getPrice,
   createCheckoutSession,
   getSubscription,
-  unsubscribe,
+  update,
   getPaymentMethod,
   deleteCard,
 };

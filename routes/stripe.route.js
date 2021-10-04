@@ -9,6 +9,6 @@ router.post('/create-checkout-session', authMiddleware, StripeController.createC
 router.get('/subscription', authMiddleware, StripeController.getSubscription);
 router.get('/payment_methods/:id', authMiddleware, StripeController.getPaymentMethod);
 router.delete('/payment_methods/:id/detach', authMiddleware, StripeController.deleteCard);
-router.delete('/unsubscribe/:id', authMiddleware, StripeController.unsubscribe);
+router.put('/subscriptions/:id/update', authMiddleware, StripeController.update);
 
 export default router;
