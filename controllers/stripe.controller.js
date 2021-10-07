@@ -45,7 +45,7 @@ const getPaymentMethod = async (req, res, next) => {
 
 const createPaymentMethod = async (req, res, next) => {
   try {
-    const attachedPaymentMethod = stripeService.setPaymentMethod(
+    const attachedPaymentMethod = await stripeService.setPaymentMethod(
         req.body.payment_method, req.params.id, req.body.subscription_id);
 
     res.json(attachedPaymentMethod);
@@ -66,11 +66,9 @@ const getPrice = async (req, res, next) => {
 
 const updateSubscription = async (req, res, next) => {
   try {
-    await stripe.subscriptions.update(req.params.id, {
-      cancel_at_period_end: req.body.cancel_at_period_end,
-    });
+    const updatedSubscription = await stripe.subscriptions.update(req.params.id, req.body);
 
-    res.status(204).json();
+    res.json(updatedSubscription);
   } catch (e) {
     next(e);
   }

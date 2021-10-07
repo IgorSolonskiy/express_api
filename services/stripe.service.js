@@ -41,16 +41,17 @@ const getSubscription = async (email) => {
 
 const setPaymentMethod = async (payment_method, customer, subscription_id) => {
   const paymentMethod = await stripe.paymentMethods.create(payment_method);
-
+  const attachedPaymentMethod = await stripe.paymentMethods.attach(
+      paymentMethod.id, {customer});
   await stripe.subscriptions.update(subscription_id,
       {default_payment_method: paymentMethod.id},
   );
 
-  return await stripe.paymentMethods.attach(paymentMethod.id, {customer});
+  return attachedPaymentMethod;
 };
 
 export default {
   getSubscription,
   createSession,
-  setPaymentMethod
+  setPaymentMethod,
 };
