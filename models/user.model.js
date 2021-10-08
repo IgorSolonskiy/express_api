@@ -10,18 +10,39 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minLength: [6, 'password must be of minimum 6 characters length'],
   },
+  followers:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
+  following:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
 }, {
   timestamps: true,
+  toJSON: {
+    transform: (doc, ret) => {
+      delete ret.password;
+      delete ret.__v;
+      delete ret.posts;
+      delete ret.email;
+    },
+  },
+  toObject: {
+    transform: (doc, ret) => {
+      delete ret.password;
+      delete ret.__v;
+      delete ret.posts;
+      delete ret.email;
+    },
+  },
 });
 
-UserSchema.virtual('privateUser').get(function() {
+UserSchema.methods.privateUser = function(authUser){
   return {
     _id: this._id,
     username: this.username,
     name: this.name,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
+    following: !!this.followers.filter(user => user._id.toString() === authUser._id.toString()).length,
+    followings_count: this.following.length,
+    followers_count: this.followers.length
   };
-});
+};
 
 export default mongoose.model('User', UserSchema);

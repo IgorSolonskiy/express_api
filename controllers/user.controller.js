@@ -3,8 +3,9 @@ import userService from '../services/user.service.js';
 
 const index = async (req, res, next) => {
   try {
-    const users = await userService.getUsers();
-    const privateUsers = users.map(user => user.privateUser);
+    const {username} = req.query;
+    const users = await User.find({username: new RegExp(username, 'i')});
+    const privateUsers = users.map(user => user.privateUser(req.user));
 
     return res.json(privateUsers);
   } catch (e) {
@@ -15,12 +16,31 @@ const index = async (req, res, next) => {
 const show = async (req, res, next) => {
   try {
     const {username} = req.params;
+    const user = await User.findOne({username});
 
-    const user = await User.findOne({username}).catch(() => {
-      res.status(204);
-    });
+    return res.json(user.privateUser(req.user));
+  } catch (e) {
+    next(e);
+  }
+};
 
-    return res.json(user.privateUser);
+const follow = async (req, res, next) => {
+  try {
+    const {username} = req.params;
+    const follower = await userService.follow(username, req.user);
+
+    return res.json(follower.privateUser(req.user));
+  } catch (e) {
+    next(e);
+  }
+};
+
+const unfollow = async (req, res, next) => {
+  try {
+    const {username} = req.params;
+    await userService.unfollow(username, req.user);
+
+    return res.status(204).json();
   } catch (e) {
     next(e);
   }
@@ -29,4 +49,6 @@ const show = async (req, res, next) => {
 export default {
   index,
   show,
+  follow,
+  unfollow,
 };

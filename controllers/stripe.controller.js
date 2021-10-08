@@ -23,7 +23,7 @@ const getSubscription = async (req, res, next) => {
         req.user.email);
 
     if (!currentSubscription)
-      res.status(204).json();
+      return res.status(204).json();
 
     res.json(currentSubscription);
   } catch (e) {
