@@ -23,6 +23,7 @@ const PostSchema = new mongoose.Schema({
   toJSON: {
     transform: (doc, ret) => {
       ret.user = {
+        _id: ret.user_id._id,
         name: ret.user_id.name,
         email: ret.user_id.email,
         username: ret.user_id.username,

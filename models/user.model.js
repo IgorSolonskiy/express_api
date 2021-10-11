@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     minLength: [6, 'password must be of minimum 6 characters length'],
   },
   followers:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
-  following:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
+  followings:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
 }, {
   timestamps: true,
   toJSON: {
@@ -40,7 +40,7 @@ UserSchema.methods.privateUser = function(authUser){
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     following: !!this.followers.filter(user => user._id.toString() === authUser._id.toString()).length,
-    followings_count: this.following.length,
+    followings_count: this.followings.length,
     followers_count: this.followers.length
   };
 };

@@ -16,6 +16,10 @@ export class ApiError extends Error {
     throw new ApiError(422, message);
   };
 
+  static permissionError = (message) => {
+    throw new ApiError(403, message);
+  };
+
   static validationError = (message, errors = []) => {
     throw new ApiError(422, message, errors);
   };

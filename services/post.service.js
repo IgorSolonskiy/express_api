@@ -1,5 +1,6 @@
 import Post from '../models/post.model.js';
 import User from '../models/user.model.js';
+import {ApiError} from '../exceptions/api.js';
 
 const createPost = async (content, user) => {
   const post = await Post.create({content, user_id: user._id});
@@ -9,10 +10,26 @@ const createPost = async (content, user) => {
   return post.populate('user_id');
 };
 
-const deletePost = async (_id) => await Post.findOneAndRemove({_id});
+const deletePost = async (_id, user) => {
+  const post = Post.find({_id});
 
-const updatePost = async (_id, content) => await Post.findOneAndUpdate({_id},
-    {content}, {new: true}).populate('user_id');
+  if (post.user_id !== user)
+    return ApiError.permissionError(
+        'You don\'t have permission to delete the post.');
+
+  await Post.findOneAndRemove({_id});
+};
+
+const updatePost = async (_id, content, user) => {
+  const post = Post.find({_id});
+
+  if (post.user_id !== user)
+    return ApiError.permissionError(
+        'You don\'t have permission to update the post.');
+
+  return Post.findOneAndUpdate({_id},
+      {content}, {new: true}).populate('user_id');
+};
 
 const getPosts = async (username) => {
   const user = await User.findOne({username}).populate({
