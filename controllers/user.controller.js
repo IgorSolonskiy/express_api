@@ -1,7 +1,7 @@
 import User from '../models/user.model.js';
 import userService from '../services/user.service.js';
 
-const index = async (req, res, next) => {
+const getUsers = async (req, res, next) => {
   try {
     const {username} = req.query;
     const users = await User.find({username: new RegExp(username, 'i')});
@@ -13,7 +13,7 @@ const index = async (req, res, next) => {
   }
 };
 
-const show = async (req, res, next) => {
+const getUser = async (req, res, next) => {
   try {
     const {username} = req.params;
     const user = await User.findOne({username});
@@ -47,8 +47,8 @@ const unfollow = async (req, res, next) => {
 };
 
 export default {
-  index,
-  show,
+  getUsers,
+  getUser,
   follow,
   unfollow,
 };

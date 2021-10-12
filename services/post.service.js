@@ -41,9 +41,18 @@ const getPosts = async (username) => {
   return user.posts;
 };
 
+const getPostsFeed = async (userId) => {
+  const authUser = await User.findById(userId);
+
+  return Post.find({
+    'user_id': [...authUser.followings, authUser],
+  }, null, {sort: {'createdAt': 'desc'}}).populate('user_id');
+};
+
 export default {
   createPost,
   getPosts,
   deletePost,
   updatePost,
+  getPostsFeed
 };
