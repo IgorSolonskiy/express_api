@@ -2,8 +2,7 @@ import postService from '../services/post.service.js';
 
 const create = async (req, res, next) => {
   try {
-    const {content} = req.body;
-    const post = await postService.createPost(content, req.user);
+    const post = await postService.createPost(req.body.content, req.user);
 
     res.json(post);
   } catch (e) {
@@ -13,8 +12,7 @@ const create = async (req, res, next) => {
 
 const getUserPosts = async (req, res, next) => {
   try {
-    const {user} = req.params;
-    const posts = await postService.getPosts(user);
+    const posts = await postService.getPosts(req.params.user);
 
     res.json(posts);
   } catch (e) {
@@ -24,8 +22,7 @@ const getUserPosts = async (req, res, next) => {
 
 const destroy = async (req, res, next) => {
   try {
-    const {id} = req.params;
-    await postService.deletePost(id, req.user._id);
+    await postService.deletePost(req.params.id, req.user._id);
 
     return res.status(204).json();
   } catch (e) {
@@ -35,9 +32,8 @@ const destroy = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const {content} = req.body;
-    const {id} = req.params;
-    const post = await postService.updatePost(id, content, req.user);
+    const post = await postService.updatePost(req.params.id, req.body.content,
+        req.user._id);
 
     return res.json(post);
   } catch (e) {

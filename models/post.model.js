@@ -12,8 +12,8 @@ const PostSchema = new mongoose.Schema({
   toObject: {
     transform: (doc, ret) => {
       ret.user = {
+        _id: ret.user_id._id,
         name: ret.user_id.name,
-        email: ret.user_id.email,
         username: ret.user_id.username,
       };
       delete ret.user_id;
@@ -25,13 +25,16 @@ const PostSchema = new mongoose.Schema({
       ret.user = {
         _id: ret.user_id._id,
         name: ret.user_id.name,
-        email: ret.user_id.email,
         username: ret.user_id.username,
       };
       delete ret.user_id;
       delete ret.__v;
     },
   },
+});
+
+PostSchema.virtual('userId').get(function() {
+  return this.user_id._id.toString()
 });
 
 export default mongoose.model('Post', PostSchema);
