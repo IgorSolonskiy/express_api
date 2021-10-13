@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import Token from '../models/token.js';
+import env from '../env.js';
 
 const generate = (payload) => {
-  const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET,
+  const accessToken = jwt.sign(payload, env.JWT_ACCESS_SECRET,
       {expiresIn: '1d'});
-  const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET,
+  const refreshToken = jwt.sign(payload, env.JWT_REFRESH_SECRET,
       {expiresIn: '1d'});
 
   return {
@@ -30,7 +31,7 @@ const removeToken = async (refreshToken) => await Token.deleteOne(
 
 const validateAccessToken = (token) => {
   try {
-    return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    return jwt.verify(token, env.JWT_ACCESS_SECRET);
   } catch (e) {
     return null;
   }
@@ -38,7 +39,7 @@ const validateAccessToken = (token) => {
 
 const validateRefreshToken = (token) => {
   try {
-    return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    return jwt.verify(token, env.JWT_REFRESH_SECRET);
   } catch (e) {
     return null;
   }
@@ -47,12 +48,11 @@ const validateRefreshToken = (token) => {
 const findToken = async (refreshToken) => await Token.findOne(
     {refreshToken});
 
-
 export default {
   save,
   generate,
   removeToken,
   validateAccessToken,
   validateRefreshToken,
-  findToken
+  findToken,
 };

@@ -1,6 +1,7 @@
 import authService from '../services/auth.js';
 import {validationResult} from 'express-validator';
 import {ApiError} from '../exceptions/api.js';
+import env from '../env.js';
 
 const register = async (req, res, next) => {
   try {
@@ -13,7 +14,7 @@ const register = async (req, res, next) => {
     const {refreshToken, accessToken} = await authService.registration(email, password, username, name);
 
     res.cookie('refreshToken', refreshToken,
-        {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
+        {maxAge: env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
     return res.status(201).json({accessToken});
   } catch (e) {
@@ -27,7 +28,7 @@ const login = async (req, res, next) => {
     const {refreshToken,accessToken} = await authService.login(email, password);
 
     res.cookie('refreshToken', refreshToken,
-        {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
+        {maxAge: env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
     return res.status(201).json({accessToken});
   } catch (e) {
@@ -53,7 +54,7 @@ const refresh = async (req, res, next) => {
     const {refreshToken, accessToken} = await authService.refresh(req.cookies.refreshToken);
 
     res.cookie('refreshToken', refreshToken,
-        {maxAge: process.env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
+        {maxAge: env.JWT_REFRESH_TIME_LIFE, httpOnly: true});
 
     return res.status(201).json({accessToken});
   } catch (e) {

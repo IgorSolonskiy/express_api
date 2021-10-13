@@ -1,4 +1,3 @@
-import {config} from 'dotenv';
 import express from 'express';
 import usersRoutes from './routes/users.js';
 import postsRoutes from './routes/posts.js';
@@ -9,9 +8,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import {createServer} from 'http';
 import socket from './core/socket.js';
-import mongoose from './core/db.js'
-
-config();
+import mongoose from './core/db.js';
+import env from './env.js';
 
 const server = express();
 const corsConfig = {
@@ -27,11 +25,12 @@ server.use(express.json())
     .use('/api', postsRoutes)
     .use('/api', stripeRoutes)
     .use('/api/auth', authRoutes)
+    .use((req, res, next) => res.status(404).send(`${req.url} - Not Found`))
     .use(error);
 
 const httpServer = createServer(server);
 
-httpServer.listen(process.env.API_PORT, (err) => {
+httpServer.listen(env.API_PORT, (err) => {
   if (err) {
     console.error('Cannot run!', err);
 
@@ -43,5 +42,5 @@ httpServer.listen(process.env.API_PORT, (err) => {
 
   socket.initialize(httpServer);
 
-  console.log(`Server running on port: http://localhost:${process.env.API_PORT}`);
+  console.log(`Server running on port: http://localhost:${env.API_PORT}`);
 });

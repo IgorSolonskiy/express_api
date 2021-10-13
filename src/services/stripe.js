@@ -1,7 +1,5 @@
-import {config} from 'dotenv';
 import {stripe} from '../controllers/stripe.js';
-
-config();
+import env from '../env.js';
 
 const createSession = async (stripe, lookup_key, username) => {
   const prices = await stripe.prices.list({
@@ -18,8 +16,8 @@ const createSession = async (stripe, lookup_key, username) => {
       },
     ],
     mode: 'subscription',
-    success_url: `${process.env.APP_URL}${username}/subscriptions?success=true&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.APP_URL}${username}/subscriptions?canceled=true`,
+    success_url: `${env.APP_URL}${username}/subscriptions?success=true&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${env.APP_URL}${username}/subscriptions?canceled=true`,
   });
 
   return session.url;

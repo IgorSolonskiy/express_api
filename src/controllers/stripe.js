@@ -1,10 +1,8 @@
-import {config} from 'dotenv';
 import Stripe from 'stripe';
 import stripeService from '../services/stripe.js';
+import env from '../env.js'
 
-config();
-
-export const stripe = new Stripe(process.env.STRIPE_ST_TEST);
+export const stripe = new Stripe(env.STRIPE_ST_TEST);
 
 const createCheckoutSession = async (req, res, next) => {
   try {

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from '../core/db.js';
 import {users} from './users.js';
 import {config} from 'dotenv';
 import {posts} from './posts.js';
@@ -8,12 +8,8 @@ config();
 (async () => {
   console.time('total time');
   console.time('connect DB');
-  const connect = await mongoose.connect(process.env.DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
 
-  await connect.connection.db.dropDatabase();
+  await mongoose.connection.db.dropDatabase();
   console.timeEnd('connect DB');
   console.time('seed runs');
 

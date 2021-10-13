@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import env from '../env.js';
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
+});
 
-export default mongoose
+export default mongoose;

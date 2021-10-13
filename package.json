@@ -1,11 +1,11 @@
 {
   "name": "rest_api",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "seed": "node ./seeders/seed.js",
-    "dev": "nodemon server.js"
+    "seed": "node src/seeders/seed.js",
+    "dev": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC",

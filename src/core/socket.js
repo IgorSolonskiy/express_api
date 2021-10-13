@@ -1,5 +1,6 @@
 import {Server} from 'socket.io';
 import {onConnect} from '../middleware/socket.js';
+import env from '../env.js';
 
 export default {
   _io: null,
@@ -7,7 +8,7 @@ export default {
   initialize(server) {
     this._io = new Server(server, {
       cors: {
-        origin: process.env.APP_URL,
+        origin: env.APP_URL,
         credentials: true,
       },
     });
