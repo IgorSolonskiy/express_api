@@ -1,5 +1,5 @@
 import {config} from 'dotenv';
-import {stripe} from '../controllers/stripe.controller.js';
+import {stripe} from '../controllers/stripe.js';
 
 config();
 

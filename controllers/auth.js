@@ -1,4 +1,4 @@
-import authService from '../services/auth.service.js';
+import authService from '../services/auth.js';
 import {validationResult} from 'express-validator';
 import {ApiError} from '../exceptions/api.js';
 

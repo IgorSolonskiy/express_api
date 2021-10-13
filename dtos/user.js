@@ -1,4 +1,4 @@
-export const userDto = (user) => {
+export const user = (user) => {
   const {username, _id, email, name} = user;
 
   return {

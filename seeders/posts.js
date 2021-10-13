@@ -1,7 +1,7 @@
-import User from '../models/user.model.js';
-import Post from '../models/post.model.js';
+import User from '../models/user.js';
+import Post from '../models/post.js';
 
-export const postsSeed = async (users) => {
+export const posts = async (users) => {
   const firstPost = await Post.create(
       {content: `test posts ${users[0].name}`, user_id: users[0]._id});
   const secondPost = await Post.create(

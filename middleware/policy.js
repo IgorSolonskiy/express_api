@@ -1,4 +1,4 @@
-import Post from '../models/post.model.js';
+import Post from '../models/post.js';
 import {ApiError} from '../exceptions/api.js';
 
 export const postPolicy = async (req, res, next) => {

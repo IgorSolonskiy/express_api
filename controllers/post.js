@@ -1,9 +1,11 @@
-import postService from '../services/post.service.js';
+import postService from '../services/post.js';
+import socket from '../core/socket.js'
 
 const create = async (req, res, next) => {
   try {
     const post = await postService.createPost(req.body.content, req.user);
 
+    socket.to(req.user.username).emit('post', {post});
     res.json(post);
   } catch (e) {
     next(e);

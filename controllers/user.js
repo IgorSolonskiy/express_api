@@ -1,5 +1,5 @@
-import User from '../models/user.model.js';
-import userService from '../services/user.service.js';
+import User from '../models/user.js';
+import userService from '../services/user.js';
 
 const getUsers = async (req, res, next) => {
   try {

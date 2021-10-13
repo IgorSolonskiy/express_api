@@ -1,6 +1,6 @@
-import User from '../models/user.model.js';
+import User from '../models/user.js';
 import bcrypt from 'bcrypt';
-import tokenService from './token.service.js';
+import tokenService from './token.js';
 import {ApiError} from '../exceptions/api.js';
 import generateAuthData from '../helpers/auth/generate.auth.data.js';
 

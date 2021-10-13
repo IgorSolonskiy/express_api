@@ -1,7 +1,7 @@
-import User from '../models/user.model.js';
+import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 
-export const usersSeed = async () => {
+export const users = async () => {
   return await User.create([
     {
       'username': 'Igor666',

@@ -1,6 +1,6 @@
 import {config} from 'dotenv';
 import Stripe from 'stripe';
-import stripeService from '../services/stripe.service.js';
+import stripeService from '../services/stripe.js';
 
 config();
 

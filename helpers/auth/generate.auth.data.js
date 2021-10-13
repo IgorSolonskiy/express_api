@@ -1,8 +1,7 @@
-import {userDto} from '../../dtos/user.dto.js';
-import tokenService from '../../services/token.service.js';
+import tokenService from '../../services/token.js';
 
 export default async (user) => {
-  const userData = userDto(user);
+  const userData = user(user);
   const tokens = tokenService.generate(userData);
 
   await tokenService.save(userData._id, tokens.refreshToken);

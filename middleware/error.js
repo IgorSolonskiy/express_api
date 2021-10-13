@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import {ApiError} from '../exceptions/api.js';
 
-export const errorMiddleware = (err, req, res, next) => {
+export const error = (err, req, res, next) => {
   if (err instanceof ApiError) {
     const error = err.errors.length
         ? {message: err.message, errors: err.errors}

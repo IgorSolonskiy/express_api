@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import {usersSeed} from './users.seed.js';
+import {users} from './users.js';
 import {config} from 'dotenv';
-import {postsSeed} from './posts.seed.js';
+import {posts} from './posts.js';
 
 config();
 
@@ -17,8 +17,8 @@ config();
   console.timeEnd('connect DB');
   console.time('seed runs');
 
-  const users = await usersSeed();
-  await postsSeed(users);
+  const users = await users();
+  await posts(users);
 
   console.timeEnd('seed runs');
   console.timeEnd('total time');
