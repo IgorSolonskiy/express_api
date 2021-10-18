@@ -13,6 +13,24 @@ const getUsers = async (req, res, next) => {
   }
 };
 
+const updateProfile = async (req, res, next) => {
+  try {
+    const user = await userService.updateProfile(req.user._id, req.file.filename);
+
+    res.json(user);
+  } catch (e) {
+    next(e);
+  }
+};
+
+const getUploads = async (req, res, next) => {
+  try {
+    res.sendFile(`${__dirname}/uploads/${req.params.id}`);
+  } catch (e) {
+    next(e);
+  }
+};
+
 const getUser = async (req, res, next) => {
   try {
     const {username} = req.params;
@@ -51,4 +69,6 @@ export default {
   getUser,
   follow,
   unfollow,
+  updateProfile,
+  getUploads,
 };

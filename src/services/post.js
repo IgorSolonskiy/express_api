@@ -28,7 +28,7 @@ const getPostsFeed = async (userId) => {
   const authUser = await User.findById(userId);
 
   return Post.find({
-    'user_id': [...authUser.followings, authUser],
+    'user_id': [...authUser.followings, authUser._id],
   }, null, {sort: {'createdAt': 'desc'}}).populate('user_id');
 };
 

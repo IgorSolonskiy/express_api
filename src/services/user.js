@@ -1,4 +1,17 @@
 import User from '../models/user';
+import {unlink} from 'fs/promises';
+
+const updateProfile = async (userId, filename) => {
+  const authUser = await User.findByIdAndUpdate(userId, {avatar: filename});
+
+  if (authUser.avatar) {
+    await unlink(__dirname + `/uploads/${authUser.avatar}`);
+  }
+
+  authUser.avatar = filename;
+
+  return authUser;
+};
 
 const follow = async (username, authUser) => {
   if (username === authUser.username)
@@ -38,4 +51,5 @@ const unfollow = async (username, authUser) => {
 export default {
   follow,
   unfollow,
+  updateProfile,
 };
