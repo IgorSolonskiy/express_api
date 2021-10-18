@@ -1,5 +1,6 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
+const NodemonPlugin = require('nodemon-webpack-plugin')
 
 module.exports = (env, argv) => {
   return ({
@@ -30,6 +31,7 @@ module.exports = (env, argv) => {
           }
         }
       ]
-    }
+    },
+    plugins: [new NodemonPlugin()]
   })
 }
