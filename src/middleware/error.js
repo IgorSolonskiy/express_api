@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {ApiError} from '../exceptions/api.js';
+import {ApiError} from '../exceptions/api';
 
 export const error = (err, req, res, next) => {
   if (err instanceof ApiError) {

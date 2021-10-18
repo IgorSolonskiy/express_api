@@ -1,5 +1,5 @@
-import Post from '../models/post.js';
-import User from '../models/user.js';
+import Post from '../models/post';
+import User from '../models/user';
 
 const createPost = async (content, user) => {
   const post = await Post.create({content, user_id: user._id});

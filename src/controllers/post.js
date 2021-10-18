@@ -1,5 +1,5 @@
-import postService from '../services/post.js';
-import socket from '../core/socket.js';
+import postService from '../services/post';
+import socket from '../core/socket';
 
 const create = async (req, res, next) => {
   try {

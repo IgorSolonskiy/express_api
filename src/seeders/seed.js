@@ -1,7 +1,7 @@
-import mongoose from '../core/db.js';
-import {users} from './users.js';
+import mongoose from '../core/db';
+import {users} from './users';
 import {config} from 'dotenv';
-import {posts} from './posts.js';
+import {posts} from './posts';
 
 config();
 

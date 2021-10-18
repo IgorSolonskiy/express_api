@@ -1,4 +1,4 @@
-import User from '../models/user.js';
+import User from '../models/user';
 
 const follow = async (username, authUser) => {
   if (username === authUser.username)

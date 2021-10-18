@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import stripeService from '../services/stripe.js';
-import env from '../env.js'
+import stripeService from '../services/stripe';
+import env from '../env'
 
 export const stripe = new Stripe(env.STRIPE_ST_TEST);
 

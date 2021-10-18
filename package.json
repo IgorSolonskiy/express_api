@@ -2,10 +2,10 @@
   "name": "rest_api",
   "version": "1.0.0",
   "main": "src/server.js",
-  "type": "module",
   "scripts": {
     "seed": "node src/seeders/seed.js",
-    "dev": "nodemon src/server.js"
+    "build": "rm -rf dist && webpack --config webpack.server.config.js",
+    "start": "node ./dist/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +26,16 @@
     "stripe": "^8.177.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/runtime": "^7.15.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.12",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.0",
+    "webpack-node-externals": "^3.0.0"
   }
 }

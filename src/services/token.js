@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import Token from '../models/token.js';
-import env from '../env.js';
+import Token from '../models/token';
+import env from '../env';
 
 const generate = (payload) => {
   const accessToken = jwt.sign(payload, env.JWT_ACCESS_SECRET,

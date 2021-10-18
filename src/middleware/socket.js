@@ -1,5 +1,5 @@
-import tokenService from '../services/token.js';
-import User from '../models/user.js';
+import tokenService from '../services/token';
+import User from '../models/user';
 
 export const onConnect = async (client, next) => {
   const {accessToken} = client.handshake.auth;

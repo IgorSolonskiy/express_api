@@ -1,5 +1,5 @@
-import {stripe} from '../controllers/stripe.js';
-import env from '../env.js';
+import {stripe} from '../controllers/stripe';
+import env from '../env';
 
 const createSession = async (stripe, lookup_key, username) => {
   const prices = await stripe.prices.list({

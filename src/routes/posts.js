@@ -1,7 +1,7 @@
 import {Router} from 'express';
-import PostController from '../controllers/post.js';
-import {auth} from '../middleware/auth.js';
-import {postPolicy} from '../middleware/policy.js';
+import PostController from '../controllers/post';
+import {auth} from '../middleware/auth';
+import {postPolicy} from '../middleware/policy';
 
 const router = Router();
 

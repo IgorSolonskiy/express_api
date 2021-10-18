@@ -1,7 +1,7 @@
-import authService from '../services/auth.js';
+import authService from '../services/auth';
 import {validationResult} from 'express-validator';
-import {ApiError} from '../exceptions/api.js';
-import env from '../env.js';
+import {ApiError} from '../exceptions/api';
+import env from '../env';
 
 const register = async (req, res, next) => {
   try {

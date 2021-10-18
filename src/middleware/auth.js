@@ -1,5 +1,5 @@
-import {ApiError} from '../exceptions/api.js';
-import tokenService from '../services/token.js';
+import {ApiError} from '../exceptions/api';
+import tokenService from '../services/token';
 
 export const auth = (req, res, next) => {
   try {

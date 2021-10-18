@@ -1,8 +1,8 @@
-import User from '../models/user.js';
+import User from '../models/user';
 import bcrypt from 'bcrypt';
-import tokenService from './token.js';
-import {ApiError} from '../exceptions/api.js';
-import generateAuthData from '../helpers/auth/generate.auth.data.js';
+import tokenService from './token';
+import {ApiError} from '../exceptions/api';
+import generateAuthData from '../helpers/auth/generate.auth.data';
 
 const registration = async (email, password, username, name) => {
   const user = await User.findOne({email});

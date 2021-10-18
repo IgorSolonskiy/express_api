@@ -1,6 +1,6 @@
 import {Server} from 'socket.io';
-import {onConnect} from '../middleware/socket.js';
-import env from '../env.js';
+import {onConnect} from '../middleware/socket';
+import env from '../env';
 
 export default {
   _io: null,
