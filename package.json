@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "seed": "node src/seeders/seed.js",
+    "seed": "rm -rf seeders && webpack --mode development --config webpack.seed.config.js && node ./seeders/seed.js",
     "build:dev": "rm -rf dist && webpack --mode development --config webpack.server.config.js",
     "watch:server": "webpack --mode development --config webpack.server.config.js --watch",
     "start": "node ./dist/server.js"
